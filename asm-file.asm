@@ -1,29 +1,31 @@
 INCLUDE Irvine32.inc
-
 .data
-msg db "Assembly procedure end now", 0
+msg db "assebly procedure end now",0
+sum DWORD 0
 
 .code
-SumNegativeNumber PROC
-    push ebp
-    mov ebp, esp
+SumNegativeNumber PROC p1:DWORD, p2:DWORD
+    
+    mov esi,p1
+    mov ecx, p2
     mov eax, 0
-    mov esi, [ebp + 8]
-    mov ecx, [ebp + 12]
-    xor ebx, ebx
-startLoop:
-    cmp ecx, 0
-    je endLoop
+
+    Sum_Loop:
+    CMP ecx, 0
+    JE end_Loop
+    
     mov ebx, [esi]
-    add esi, 4
-    cmp ebx, 0
-    jge skip
+    CMP ebx, 0
+    JGE skip_add
+
     add eax, ebx
-skip:
-    loop startLoop
-endLoop:
-    mov esp, ebp
-    pop ebp
+    skip_add:
+    add esi, 4
+    sub ecx,1
+    JMP Sum_Loop
+
+    end_Loop:
     ret
-SumNegativeNumber ENDP
+    SumNegativeNumber ENDP
+
 END
