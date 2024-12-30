@@ -1,27 +1,29 @@
-
-
 INCLUDE Irvine32.inc
-.data
-;public asmfunc
-msg db "assebly procedure end now",0
 
+.data
+msg db "Assembly procedure end now", 0
 
 .code
-asmfunc PROC p1:DWORD, p2:DWORD
-    
+SumNegativeNumber PROC
     push ebp
-    mov ebp,esp
-    mov eax, [ebp+12
-\] ; Move the first parameter into EAX
-    call writedec
-    call crlf
-    ;add eax, p2 ; Add the second parameter to EAX
-    call writedec
-    call crlf
-    mov edx, offset msg
-    call writestring
-    call crlf
-    
+    mov ebp, esp
+    mov eax, 0
+    mov esi, [ebp + 8]
+    mov ecx, [ebp + 12]
+    xor ebx, ebx
+startLoop:
+    cmp ecx, 0
+    je endLoop
+    mov ebx, [esi]
+    add esi, 4
+    cmp ebx, 0
+    jge skip
+    add eax, ebx
+skip:
+    loop startLoop
+endLoop:
+    mov esp, ebp
+    pop ebp
     ret
-asmfunc ENDP
-end
+SumNegativeNumber ENDP
+END
